@@ -91,15 +91,15 @@ if __name__ == "__main__":
     main()   
     #find mins and max of all data
     xmax,xmin,ymax,ymin,zmax,zmin = max_min()
-    print("max/min",xmax,xmin,ymax,ymin,zmax,zmin)
     #request from user number of random points wanted
     n_input = random_points(xmax,xmin,ymax,ymin,zmax,zmin)
     # checks for all points that are in union of a circle
     # test_max_min()
     union_of_circle = overlap_check()
-    print("# of points in union of circle: ", union_of_circle)
     #calculates volume of our protein
     volume_of_protein = protein_vol(xmax,xmin,ymax,ymin,zmax,zmin,union_of_circle,n_input)
     #plots all data by center points only
+    print("# of points in union of circle: ", union_of_circle)
     print("volume of protein: ",volume_of_protein)
+    #run comment this for data to be plotted, does make running program a bit slower in test
     # plot_data()
