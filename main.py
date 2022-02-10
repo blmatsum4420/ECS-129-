@@ -68,7 +68,6 @@ def overlap_check():
 def protein_vol(xmax,xmin,ymax,ymin,zmax,zmin,union_of_circle,n_input):
 #equation is (xmax-xmin)(ymax-ymin)(zmax-zmin)(points in union of balls/total of point)
 #easier way to turn everything into a float at once?
-    print("check if legit",xmax,xmin,ymax,ymin,zmax,zmin,union_of_circle,n_input)
     volume_of_protein = (xmax-xmin)*(ymax-ymin)*(zmax-zmin)*(union_of_circle/n_input)
     return volume_of_protein
 
@@ -94,7 +93,6 @@ if __name__ == "__main__":
     #request from user number of random points wanted
     n_input = random_points(xmax,xmin,ymax,ymin,zmax,zmin)
     # checks for all points that are in union of a circle
-    # test_max_min()
     union_of_circle = overlap_check()
     #calculates volume of our protein
     volume_of_protein = protein_vol(xmax,xmin,ymax,ymin,zmax,zmin,union_of_circle,n_input)
