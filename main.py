@@ -46,11 +46,11 @@ def max_min():
     zmin = min(z_list)
     return xmax,xmin,ymax,ymin,zmax,zmin
 
-def random_points(xmax,xmin,ymax,ymin):
+def random_points(xmax,xmin,ymax,ymin,zmax,zmin):
     n_input = int(input("Please give N number of points: "))
     for i in range(n_input):
         #is it good to add to a outside list from a fxn for storage?
-        random_plots.append((random.randrange(int(math.floor(xmin)),int(math.ceil(xmax))),random.randrange(int(math.floor(ymin)),int(math.ceil(ymax)))))
+        random_plots.append((random.randrange(int(math.floor(xmin)),int(math.ceil(xmax))),random.randrange(int(math.floor(ymin)),int(math.ceil(ymax))),random.randrange(int(math.floor(zmin)),int(math.ceil(zmax)))))
         # random_plots.append(random.randrange(int(math.floor(xmin))),int(math.ceil(xmax)))),random.randrange(int((math.floor(ymin)),int((math.ceil(ymax))))))
     return n_input
 
@@ -59,7 +59,7 @@ def overlap_check():
     union_of_circle = 0
     for out in random_plots:
         for center in sphere_storage:
-            if (((float(out[0]) - float(center.x))**2) + ((float(out[1]) - float(center.y))**2)) <= float(center.radius)**2:
+            if (((float(out[0]) - float(center.x))**2) + ((float(out[1]) - float(center.y))**2) + ((float(out[2]) - float(center.z))**2)) <= float(center.radius)**2:
                 union_of_circle += 1
                 break
     return union_of_circle
@@ -71,16 +71,18 @@ def protein_vol(xmax,xmin,ymax,ymin,zmax,zmin,union_of_circle,n_input):
     volume_of_protein = (xmax-xmin)*(ymax-ymin)*(zmax-zmin)*(union_of_circle/n_input)
     return volume_of_protein
 
-# def plot_data():
-## will plot and display all data points
-#     for sphere in sphere_storage:
-#         plt.scatter(float(sphere.x),float(sphere.y), c = 'blue')
-#     for points in random_plots:
-#         plt.scatter(float(points[0]),float(points[1]), c = 'red')
-#     plt.xlabel('x-axis')
-#     plt.ylabel('y-axis')
-#     plt.title('sample_data')
-#     plt.show()
+def plot_data():
+# will plot and display all data points
+# blue is sample_data points
+    for sphere in sphere_storage:
+        plt.scatter(float(sphere.x),float(sphere.y), c = 'blue')
+# red is random points
+    for points in random_plots:
+        plt.scatter(float(points[0]),float(points[1]), c = 'red')
+    plt.xlabel('x-axis')
+    plt.ylabel('y-axis')
+    plt.title('sample_data')
+    plt.show()
 
 #will auto run main fxn at start of program being run
 if __name__ == "__main__":
@@ -90,7 +92,7 @@ if __name__ == "__main__":
     xmax,xmin,ymax,ymin,zmax,zmin = max_min()
     print("max/min",xmax,xmin,ymax,ymin,zmax,zmin)
     #request from user number of random points wanted
-    n_input = random_points(xmax,xmin,ymax,ymin)
+    n_input = random_points(xmax,xmin,ymax,ymin,zmax,zmin)
     # checks for all points that are in union of a circle
     # test_max_min()
     union_of_circle = overlap_check()
