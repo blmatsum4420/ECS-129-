@@ -22,6 +22,7 @@ def main():
     for line in f:
         cur_coords = line
         # split each line by whitespace and get the 3-D coordinates and radius
+        # idea is combine these into a single list to be easier
         x,y,z,rad = cur_coords.split()
         x_list.append(float(x)+float(rad))
         y_list.append(float(y)+float(rad))
