@@ -55,13 +55,13 @@ def overlap_check(random_plots,sphere_storage):
     #uses numpy arrays instead of double for loops for optimization
     union_of_circle = 0
     np_random_plots = np.array(random_plots)
-    np_random_sphere_storage = np.array(sphere_storage).astype(np.float)
+    np_sphere_storage = np.array(sphere_storage).astype(np.float)
 
     for out in np_random_plots:
-        extended_out_array = np.repeat(out, len(np_random_sphere_storage)).reshape(len(out), -1).T
-        distance = (extended_out_array - np_random_sphere_storage[:,:3])**2
+        extended_out_array = np.repeat(out, len(np_sphere_storage)).reshape(len(out), -1).T
+        distance = (extended_out_array - np_sphere_storage[:,:3])**2
         distance_sum = distance.sum(axis=1)
-        within_range = np.less_equal(distance_sum, np_random_sphere_storage[:,3]**2)
+        within_range = np.less_equal(distance_sum, np_sphere_storage[:,3]**2)
         union_of_circle += within_range.any()
     return union_of_circle
 
@@ -89,10 +89,10 @@ def main(n_input,input_file, plot_toggle = "no"):
     volume_of_protein = protein_vol(xmax,xmin,ymax,ymin,zmax,zmin,union_of_circle,n_input)  
     if plot_toggle == "yes":
         plot_data(sphere_storage,random_plots) 
-
     return volume_of_protein
 
 if __name__ == "__main__":
     #default test cases
     vol = main(100000)
     print(vol)
+
