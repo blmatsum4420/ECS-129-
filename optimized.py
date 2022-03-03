@@ -81,18 +81,14 @@ def plot_data(sphere_storage,random_plots):
     plt.title('sample_data')
     plt.show()
 
-def main(n_input,input_file, plot_toggle = "no"):
+def run_brute(n_input,input_file, plot_toggle = "no"):
     #main funciton provides order of funciton calls
     xmax,xmin,ymax,ymin,zmax,zmin,sphere_storage = get_max_min(input_file)
     random_plots = random_points(n_input,xmax,xmin,ymax,ymin,zmax,zmin)
     union_of_circle = overlap_check(random_plots,sphere_storage)
     volume_of_protein = protein_vol(xmax,xmin,ymax,ymin,zmax,zmin,union_of_circle,n_input)  
-    if plot_toggle == "yes":
-        plot_data(sphere_storage,random_plots) 
     return volume_of_protein
 
 if __name__ == "__main__":
-    #default test cases
-    vol = main(100000)
-    print(vol)
+    run_brute()
 
