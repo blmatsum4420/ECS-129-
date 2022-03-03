@@ -47,18 +47,30 @@ def get_max_min(input_file):
 
 def voronoi_plot(sphere_storage,random_plots):
     union_of_circle = 0
-    np_sphere_storage = np.array(sphere_storage).astype(np.float)
+    np_sphere_storage = np.array(sphere_storage).astype(float)
     np_random_plots = np.array(random_plots)
     voronoi_kdtree = KDTree(np_sphere_storage[:,:3])
+    # print(np_sphere_storage)
+    # print(np_sphere_storage[:,3])
     test_point_dist, test_point_regions = voronoi_kdtree.query(np_random_plots, k=1)
     #test_point_regions stores all the index values of nearest 
     #point from sphere_storage to each of our points in random plots
     for i in range(len(np_random_plots)):
-        distance = (np_random_plots[i] - np_sphere_storage[test_point_regions[i]][:3])**2
-        distance_sum = distance.sum(axis=0)
-        within_range = np.less_equal(distance_sum, np_sphere_storage[:,3]**2)
+        distance = (np_random_plots[i] - np_sphere_storage[test_point_regions[i]][:3])**2 #(3,)
+        distance_sum = distance.sum()
+        within_range = np.less_equal(distance_sum, np_sphere_storage[test_point_regions[i]][3:]**2)
         union_of_circle += within_range.any()
     return union_of_circle
+
+def plot_it(sphere_storage):
+    
+    np_sphere_storage = np.array(sphere_storage).astype(float)
+    adjusted_sphere_storage = np_sphere_storage[:,:2]
+    vor = Voronoi(adjusted_sphere_storage)
+    fig = voronoi_plot_2d(vor)
+    plt.xlabel("X axis")
+    plt.ylabel("Y axis")
+    plt.show()
         
 def random_points(n_input,xmax,xmin,ymax,ymin,zmax,zmin):
     #creates a series of random plots that are appended to random_plots as storage, stored as tuples
@@ -72,12 +84,12 @@ def protein_vol(xmax,xmin,ymax,ymin,zmax,zmin,union_of_circle,n_input):
     volume_of_protein = (xmax-xmin)*(ymax-ymin)*(zmax-zmin)*(union_of_circle/n_input)
     return volume_of_protein
 
-if __name__ == "__main__":
-    #default test cases
-    n_input = 100000
-    input_file = "C:/Users/mahtz/Documents/GitHub/Ecs-129-/sample_data.txt"
+def run_voronoi(n_input,input_file):
     xmax,xmin,ymax,ymin,zmax,zmin,sphere_storage = get_max_min(input_file)
     random_plots = random_points(n_input,xmax,xmin,ymax,ymin,zmax,zmin)
     union_of_circle = voronoi_plot(sphere_storage,random_plots)
     volume_of_protein = protein_vol(xmax,xmin,ymax,ymin,zmax,zmin,union_of_circle,n_input)
-    print(volume_of_protein)
+    return volume_of_protein, sphere_storage
+
+if __name__ == "__main__":
+    run_voronoi()

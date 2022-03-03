@@ -13,9 +13,9 @@ class Point (object):
     def __init__(self, x, y, z, radius):
         self.x, self.y, self.z, self.radius = x,y,z,radius   
 
-def main():
+def max_min_read(filename):
     #function will read all file lines and push data into a singular class
-    filename = input("Please provide data file: ")
+    filename 
     f = open(filename, 'r')
     num_protein = f.readline()
 
@@ -84,10 +84,8 @@ def plot_data():
     plt.title('sample_data')
     plt.show()
 
-#will auto run main fxn at start of program being run
-if __name__ == "__main__":
-    #reads file and applies class and puts data into list
-    main()   
+def old_code(filename):
+    max_min_read(filename)   
     #find mins and max of all data
     xmax,xmin,ymax,ymin,zmax,zmin = max_min()
     print(xmax,xmin,ymax,ymin,zmax,zmin)
@@ -99,7 +97,8 @@ if __name__ == "__main__":
     #calculates volume of our protein
     volume_of_protein = protein_vol(xmax,xmin,ymax,ymin,zmax,zmin,union_of_circle,n_input)
     #plots all data by center points only
-    print("# of points in union of circle: ", union_of_circle)
-    print("volume of protein: ",volume_of_protein)
-    #run comment this for data to be plotted, does make running program a bit slower in test
-    # plot_data()
+    return volume_of_protein
+
+#will auto run main fxn at start of program being run
+if __name__ == "__main__":
+    old_code()
